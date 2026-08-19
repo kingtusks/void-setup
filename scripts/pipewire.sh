@@ -12,3 +12,6 @@ sudo mkdir -p ~/.config/service
 sudo ln -s /etc/sv/pipewire ~/.config/service/
 sudo ln -s /etc/sv/wireplumber ~/.config/service/
 sudo ln -s /etc/sv/pipewire-pulse ~/.config/service/
+
+#adding bluetooth support
+sudo xbps-install -Sy libspa-bluetooth
