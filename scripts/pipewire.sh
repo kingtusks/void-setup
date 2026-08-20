@@ -1,17 +1,25 @@
 #!/bin/sh
+#ref: https://docs.voidlinux.org/config/media/pipewire.html
 
+#installing pipewire (also installs wireplumber, a session manager)
 sudo xbps-install -S pipewire
 
-#connecting to wireplumber
+#configuring pipewire to launch wireplumber directly
 sudo mkdir -p /etc/pipewire/pipewire.conf.d
 sudo ln -s /usr/share/examples/wireplumber/10-wireplumber.conf /etc/pipewire/pipewire.conf.d/
+
+#giving it a pulseaudio interface
+sudo mkdir -p /etc/pipewire/pipewire.conf.d
 sudo ln -s /usr/share/examples/pipewire/20-pipewire-pulse.conf /etc/pipewire/pipewire.conf.d/
 
-#enabling as a service
-sudo mkdir -p ~/.config/service
-sudo ln -s /etc/sv/pipewire ~/.config/service/
-sudo ln -s /etc/sv/wireplumber ~/.config/service/
-sudo ln -s /etc/sv/pipewire-pulse ~/.config/service/
+#to test run 'pipewire'
 
-#adding bluetooth support
-sudo xbps-install -Sy libspa-bluetooth
+#getting it to launch on startup (for KDE)
+mkdir -p ~/.config/autostart
+cat >~/.config/autostart/pipewire.desktop <<'EOF'
+[Desktop Entry]
+Type=Application
+Name=PipeWire
+Exec=sh -c "pipewire &"
+X-GNOME-Autostart-enabled=true
+EOF
